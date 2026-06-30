@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 
-const dbPath = path.join(__dirname, 'data.sqlite');
+const dbPath = process.env.DATABASE_PATH || path.join(__dirname, 'data.sqlite');
 const db = new Database(dbPath);
 
 db.exec(`
