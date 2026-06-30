@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Proyecto Web Informativo - Alumnos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        :root {
+            --color-principal: #2563eb;
+            --color-secundario: #111827;
+            --color-fondo: #f3f4f6;
+            --color-tarjeta: #ffffff;
+            --color-texto: #111827;
+            --color-texto-suave: #6b7280;
+            --color-borde: #e5e7eb;
+            --color-exito: #16a34a;
+            --color-alerta: #f59e0b;
+            --color-error: #dc2626;
+            --sombra: 0 10px 30px rgba(0,0,0,0.08);
+            --radio: 18px;
+        }
+
+        body.modo-oscuro {
+            --color-principal: #60a5fa;
+            --color-secundario: #f9fafb;
+            --color-fondo: #020617;
+            --color-tarjeta: #0f172a;
+            --color-texto: #f9fafb;
+            --color-texto-suave: #cbd5e1;
+            --color-borde: #1e293b;
+            --sombra: 0 10px 30px rgba(0,0,0,0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--color-fondo);
+            color: var(--color-texto);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .contenedor {
+            width: min(1200px, 92%);
+            margin: auto;
+        }
+
+        .barra-superior {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--color-tarjeta);
+            border-bottom: 1px solid var(--color-borde);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+        }
+
+        .nav {
+            min-height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: bold;
+        }
+
+        .logo-icono {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: var(--color-principal);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .menu a,
+        .btn {
+            border: none;
+            cursor: pointer;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: transparent;
+            color: var(--color-texto);
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .menu a:hover,
+        .btn:hover {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--color-principal);
+        }
+
+        .btn-principal {
+            background: var(--color-principal);
+            color: white;
+        }
+
+        .btn-principal:hover {
+            background: var(--color-principal);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            padding: 70px 0;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .etiqueta {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.12);
+            color: var(--color-principal);
+            font-weight: bold;
+            margin-bottom: 14px;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 6vw, 58px);
+            line-height: 1.05;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            color: var(--color-texto-suave);
+            font-size: 18px;
+            margin-bottom: 24px;
+        }
+
+        .acciones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tarjeta {
+            background: var(--color-tarjeta);
+            border: 1px solid var(--color-borde);
+            border-radius: var(--radio);
+            box-shadow: var(--sombra);
+            padding: 22px;
+        }
+
+        .tarjeta-visual {
+            min-height: 360px;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            background:
+                radial-gradient(circle at top left, rgba(37,99,235,0.25), transparent 35%),
+                var(--color-tarjeta);
+        }
+
+        .tarjeta-visual .pantalla {
+            width: 100%;
+            border: 1px solid var(--color-borde);
+            border-radius: 18px;
+            padding: 18px;
+            background: rgba(255,255,255,0.04);
+        }
+
+        .mock-header {
+            height: 14px;
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .punto {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--color-principal);
+            opacity: 0.7;
+        }
+
+        .mock-linea {
+            height: 12px;
+            border-radius: 999px;
+            background: var(--color-borde);
+            margin-bottom: 10px;
+        }
+
+        .mock-linea.corta {
+            width: 60%;
+        }
+
+        section {
+            padding: 45px 0;
+        }
+
+        .titulo-seccion {
+            margin-bottom: 24px;
+        }
+
+        .titulo-seccion h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .titulo-seccion p {
+            color: var(--color-texto-suave);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 18px;
+        }
+
+        .estadisticas {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .stat {
+            padding: 18px;
+            border-radius: 16px;
+            background: rgba(37, 99, 235, 0.08);
+            border: 1px solid var(--color-borde);
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 26px;
+            color: var(--color-principal);
+        }
+
+        .lista-botones {
+            display: grid;
+            gap: 10px;
+        }
+
+        .item-lista {
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid var(--color-borde);
+            background: rgba(255,255,255,0.04);
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .item-lista small {
+            color: var(--color-texto-suave);
+            display: block;
+        }
+
+        .display {
+            min-height: 360px;
+            border: 1px dashed var(--color-borde);
+            border-radius: var(--radio);
+            padding: 20px;
+            background:
+                linear-gradient(135deg, rgba(37,99,235,0.08), transparent),
+                var(--color-tarjeta);
+        }
+
+        .display h3 {
+            margin-bottom: 10px;
+        }
+
+        .display p {
+            color: var(--color-texto-suave);
+            margin-bottom: 12px;
+        }
+
+        .display iframe {
+            width: 100%;
+            height: 260px;
+            border: 1px solid var(--color-borde);
+            border-radius: 14px;
+            background: white;
+            margin-top: 12px;
+        }
+
+        .modulo-card {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-height: 230px;
+        }
+
+        .modulo-card h3 {
+            color: var(--color-principal);
+        }
+
+        .modulo-card p {
+            color: var(--color-texto-suave);
+        }
+
+        .modulo-card ul {
+            padding-left: 18px;
+            color: var(--color-texto-suave);
+        }
+
+        .recurso-link {
+            display: block;
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid var(--color-borde);
+            background: var(--color-tarjeta);
+            transition: 0.2s;
+        }
+
+        .recurso-link:hover {
+            transform: translateY(-3px);
+            border-color: var(--color-principal);
+        }
+
+        .formulario {
+            display: grid;
+            gap: 12px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px 14px;
+            border-radius: 14px;
+            border: 1px solid var(--color-borde);
+            background: var(--color-fondo);
+            color: var(--color-texto);
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--color-principal);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        footer {
+            padding: 35px 0;
+            border-top: 1px solid var(--color-borde);
+            text-align: center;
+            color: var(--color-texto-suave);
+        }
+
+        .boton-flotante-principal {
+            position: fixed;
+            right: 22px;
+            bottom: 22px;
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            border: none;
+            background: var(--color-principal);
+            color: white;
+            font-size: 26px;
+            cursor: pointer;
+            box-shadow: var(--sombra);
+            z-index: 300;
+        }
+
+        .menu-flotante {
+            position: fixed;
+            right: 22px;
+            bottom: 96px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 299;
+        }
+
+        .menu-flotante.activo {
+            display: flex;
+        }
+
+        .menu-flotante button,
+        .menu-flotante a {
+            border: none;
+            cursor: pointer;
+            padding: 12px 15px;
+            border-radius: 999px;
+            background: var(--color-tarjeta);
+            color: var(--color-texto);
+            border: 1px solid var(--color-borde);
+            box-shadow: var(--sombra);
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .panel-lateral {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: min(420px, 92%);
+            height: 100vh;
+            background: var(--color-tarjeta);
+            border-left: 1px solid var(--color-borde);
+            box-shadow: var(--sombra);
+            z-index: 400;
+            transition: 0.25s;
+            padding: 22px;
+            overflow-y: auto;
+        }
+
+        .panel-lateral.activo {
+            right: 0;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .btn-cerrar {
+            border: none;
+            cursor: pointer;
+            background: var(--color-error);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-weight: bold;
+        }
+
+        .calculadora {
+            display: grid;
+            gap: 10px;
+        }
+
+        .resultado-calc {
+            padding: 18px;
+            border-radius: 14px;
+            background: var(--color-fondo);
+            border: 1px solid var(--color-borde);
+            min-height: 60px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .botones-calc {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .botones-calc button {
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--color-borde);
+            background: var(--color-fondo);
+            color: var(--color-texto);
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .botones-calc button:hover {
+            border-color: var(--color-principal);
+        }
+
+        .lista-tareas {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .tarea {
+            padding: 12px;
+            border-radius: 14px;
+            border: 1px solid var(--color-borde);
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .tarea.completada span {
+            text-decoration: line-through;
+            color: var(--color-texto-suave);
+        }
+
+        .marca-agua {
+            position: fixed;
+            left: 18px;
+            bottom: 12px;
+            z-index: 10;
+            opacity: 0.45;
+            font-size: 12px;
+            pointer-events: none;
+            color: var(--color-texto-suave);
+        }
+
+        @media (max-width: 850px) {
+            .hero-grid,
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .estadisticas {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 14px 0;
+            }
+
+            .menu {
+                width: 100%;
+            }
+
+            .menu a,
+            .btn {
+                padding: 9px 11px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body id="inicio">
+
+    <div class="marca-agua" id="marcaAgua">Proyecto educativo</div>
+
+    <header class="barra-superior">
+        <div class="contenedor nav">
+            <a href="#inicio" class="logo">
+                <div class="logo-icono" id="logoIcono">W</div>
+                <div>
+                    <div id="nombreProyectoMenu">Web Informativa</div>
+                    <small id="subtituloProyectoMenu">Proyecto para alumnos</small>
+                </div>
+            </a>
+
+            <nav class="menu">
+                <a href="#inicio">Inicio</a>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#modulos">Módulos</a>
+                <a href="#recursos">Recursos</a>
+                <a href="#contacto">Contacto</a>
+                <button class="btn" onclick="cambiarModo()">Modo</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="contenedor hero-grid">
+                <div>
+                    <span class="etiqueta" id="etiquetaHero">Página editable para estudiantes</span>
+                    <h1 id="tituloHero">Crea una página web informativa con enlaces, botones y funciones.</h1>
+                    <p id="descripcionHero">
+                        Este ejemplo permite aprender cómo se organiza una página web real: navegación,
+                        secciones, dashboard, enlaces, botones flotantes, calculadora, notas y tareas.
+                    </p>
+
+                    <div class="acciones">
+                        <a class="btn btn-principal" href="#dashboard">Ver dashboard</a>
+                        <a class="btn" href="#modulos">Explorar módulos</a>
+                        <button class="btn" onclick="mostrarEnDisplay('bienvenida')">Mostrar bienvenida</button>
+                    </div>
+                </div>
+
+                <div class="tarjeta tarjeta-visual">
+                    <div class="pantalla">
+                        <div class="mock-header">
+                            <div class="punto"></div>
+                            <div class="punto"></div>
+                            <div class="punto"></div>
+                        </div>
+                        <h2>Vista tipo página web</h2>
+                        <p>
+                            Los alumnos pueden modificar textos, enlaces, módulos,
+                            colores y funciones desde el código.
+                        </p>
+                        <div class="mock-linea"></div>
+                        <div class="mock-linea corta"></div>
+                        <br>
+                        <button class="btn btn-principal" onclick="mostrarEnDisplay('guia')">Ver guía rápida</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard">
+            <div class="contenedor">
+                <div class="titulo-seccion">
+                    <h2>Dashboard principal</h2>
+                    <p>
+                        Aquí se muestra información dinámica. Al presionar botones o enlaces,
+                        el contenido aparece en el display.
+                    </p>
+                </div>
+
+                <div class="estadisticas">
+                    <div class="stat">
+                        <strong id="totalModulos">0</strong>
+                        <span>Módulos</span>
+                    </div>
+                    <div class="stat">
+                        <strong id="totalEnlaces">0</strong>
+                        <span>Enlaces</span>
+                    </div>
+                    <div class="stat">
+                        <strong id="totalFunciones">5</strong>
+                        <span>Funciones</span>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="tarjeta">
+                        <h3>Enlaces rápidos</h3>
+                        <p style="color: var(--color-texto-suave); margin-bottom: 14px;">
+                            Los enlaces se editan desde la configuración del código.
+                        </p>
+                        <div class="lista-botones" id="listaEnlacesDashboard"></div>
+                    </div>
+
+                    <div class="display" id="pantallaDisplay">
+                        <h3>Display del dashboard</h3>
+                        <p>
+                            Este espacio funciona como una pantalla interna. Aquí se puede mostrar
+                            información, enlaces, módulos, mensajes o resultados de formularios.
+                        </p>
+                        <button class="btn btn-principal" onclick="mostrarEnDisplay('bienvenida')">
+                            Cargar ejemplo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="modulos">
+            <div class="contenedor">
+                <div class="titulo-seccion">
+                    <h2>Módulos de la página</h2>
+                    <p>
+                        Cada tarjeta representa una sección o tema. Los alumnos pueden agregar,
+                        eliminar o modificar módulos.
+                    </p>
+                </div>
+
+                <div class="grid-3" id="contenedorModulos"></div>
+            </div>
+        </section>
+
+        <section id="recursos">
+            <div class="contenedor">
+                <div class="titulo-seccion">
+                    <h2>Recursos y conexiones</h2>
+                    <p>
+                        Esta sección puede contener enlaces a clases, documentos, videos,
+                        páginas externas o recursos del proyecto.
+                    </p>
+                </div>
+
+                <div class="grid-3" id="contenedorRecursos"></div>
+            </div>
+        </section>
+
+        <section id="contacto">
+            <div class="contenedor grid-2">
+                <div>
+                    <div class="titulo-seccion">
+                        <h2>Formulario de prueba</h2>
+                        <p>
+                            Este formulario no envía datos a internet. Solo muestra el resultado
+                            en el display del dashboard para que los alumnos entiendan el flujo.
+                        </p>
+                    </div>
+
+                    <form class="formulario" onsubmit="procesarFormulario(event)">
+                        <input type="text" id="nombreFormulario" placeholder="Nombre del estudiante" required>
+                        <select id="temaFormulario" required>
+                            <option value="">Selecciona un tema</option>
+                            <option value="HTML">HTML</option>
+                            <option value="CSS">CSS</option>
+                            <option value="JavaScript">JavaScript</option>
+                            <option value="Proyecto final">Proyecto final</option>
+                        </select>
+                        <textarea id="mensajeFormulario" placeholder="Escribe un mensaje o comentario" required></textarea>
+                        <button class="btn btn-principal" type="submit">Mostrar en dashboard</button>
+                    </form>
+                </div>
+
+                <div class="tarjeta">
+                    <h3>Objetivo educativo</h3>
+                    <p style="color: var(--color-texto-suave);">
+                        Con esta página los alumnos pueden practicar:
+                    </p>
+                    <br>
+                    <ul style="padding-left: 20px; color: var(--color-texto-suave);">
+                        <li>Estructura básica de HTML.</li>
+                        <li>Diseño visual con CSS.</li>
+                        <li>Botones y eventos con JavaScript.</li>
+                        <li>Uso de secciones conectadas.</li>
+                        <li>Simulación de un dashboard.</li>
+                        <li>Funciones como calculadora, notas y tareas.</li>
+                    </ul>
+                    <br>
+                    <a class="btn btn-principal" href="#inicio">Volver al inicio</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="contenedor">
+            <p id="footerTexto">Proyecto educativo creado para practicar páginas web con HTML, CSS y JavaScript.</p>
+        </div>
+    </footer>
+
+    <button class="boton-flotante-principal" onclick="abrirMenuFlotante()">+</button>
+
+    <div class="menu-flotante" id="menuFlotante">
+        <a href="#inicio">Inicio</a>
+        <a href="#dashboard">Dashboard</a>
+        <button onclick="cambiarModo()">Modo claro/oscuro</button>
+        <button onclick="abrirPanel('panelCalculadora')">Calculadora</button>
+        <button onclick="abrirPanel('panelNotas')">Notas</button>
+        <button onclick="abrirPanel('panelTareas')">Tareas</button>
+        <button onclick="limpiarDisplay()">Limpiar display</button>
+        <button onclick="window.scrollTo(0,0)">Subir</button>
+    </div>
+
+    <aside class="panel-lateral" id="panelCalculadora">
+        <div class="panel-header">
+            <h2>Calculadora</h2>
+            <button class="btn-cerrar" onclick="cerrarPanel('panelCalculadora')">Cerrar</button>
+        </div>
+
+        <div class="calculadora">
+            <div class="resultado-calc" id="resultadoCalculadora">0</div>
+            <div class="botones-calc">
+                <button onclick="calcAgregar('7')">7</button>
+                <button onclick="calcAgregar('8')">8</button>
+                <button onclick="calcAgregar('9')">9</button>
+                <button onclick="calcAgregar('/')">÷</button>
+
+                <button onclick="calcAgregar('4')">4</button>
+                <button onclick="calcAgregar('5')">5</button>
+                <button onclick="calcAgregar('6')">6</button>
+                <button onclick="calcAgregar('*')">×</button>
+
+                <button onclick="calcAgregar('1')">1</button>
+                <button onclick="calcAgregar('2')">2</button>
+                <button onclick="calcAgregar('3')">3</button>
+                <button onclick="calcAgregar('-')">−</button>
+
+                <button onclick="calcAgregar('0')">0</button>
+                <button onclick="calcAgregar('.')">.</button>
+                <button onclick="calcResultado()">=</button>
+                <button onclick="calcAgregar('+')">+</button>
+
+                <button onclick="calcLimpiar()">C</button>
+                <button onclick="calcBorrar()">Borrar</button>
+                <button onclick="calcAgregar('(')">(</button>
+                <button onclick="calcAgregar(')')">)</button>
+            </div>
+        </div>
+    </aside>
+
+    <aside class="panel-lateral" id="panelNotas">
+        <div class="panel-header">
+            <h2>Notas rápidas</h2>
+            <button class="btn-cerrar" onclick="cerrarPanel('panelNotas')">Cerrar</button>
+        </div>
+
+        <textarea id="notaTexto" placeholder="Escribe tus notas aquí..."></textarea>
+        <br><br>
+        <button class="btn btn-principal" onclick="guardarNota()">Guardar nota</button>
+        <button class="btn" onclick="limpiarNota()">Limpiar nota</button>
+        <br><br>
+        <div class="tarjeta">
+            <h3>Nota guardada</h3>
+            <p id="notaGuardada" style="color: var(--color-texto-suave);">Todavía no hay notas guardadas.</p>
+        </div>
+    </aside>
+
+    <aside class="panel-lateral" id="panelTareas">
+        <div class="panel-header">
+            <h2>Lista de tareas</h2>
+            <button class="btn-cerrar" onclick="cerrarPanel('panelTareas')">Cerrar</button>
+        </div>
+
+        <div class="formulario">
+            <input type="text" id="inputTarea" placeholder="Nueva tarea">
+            <button class="btn btn-principal" onclick="agregarTarea()">Agregar tarea</button>
+        </div>
+
+        <div class="lista-tareas" id="listaTareas"></div>
+    </aside>
+
+    <script>
+        /*
+            ======================================================
+            CONFIGURACION_EDITABLE
+            ======================================================
+
+            Esta es la zona más importante para los alumnos.
+
+            Aquí pueden cambiar:
+            - Nombre del proyecto
+            - Títulos
+            - Descripciones
+            - Enlaces
+            - Módulos
+            - Recursos
+            - Firma o marca de agua
+
+            No necesitan modificar todo el código.
+            Primero deben practicar cambiando esta parte.
+        */
+
+        const CONFIGURACION_EDITABLE = {
+            nombreProyecto: "Web Informativa",
+            subtitulo: "Proyecto para alumnos",
+            logoTexto: "W",
+            etiquetaHero: "Página editable para estudiantes",
+            tituloHero: "Crea una página web informativa con enlaces, botones y funciones.",
+            descripcionHero: "Este ejemplo permite aprender cómo se organiza una página web real: navegación, secciones, dashboard, enlaces, botones flotantes, calculadora, notas y tareas.",
+            marcaAgua: "Proyecto educativo - HTML CSS JS",
+            footer: "Proyecto educativo creado para practicar páginas web con HTML, CSS y JavaScript.",
+
+            enlacesRapidos: [
+                {
+                    titulo: "Abrir Google",
+                    descripcion: "Ejemplo de enlace externo",
+                    url: "https://www.google.com"
+                },
+                {
+                    titulo: "Abrir YouTube",
+                    descripcion: "Página para buscar videos educativos",
+                    url: "https://www.youtube.com"
+                },
+                {
+                    titulo: "Abrir Wikipedia",
+                    descripcion: "Consulta de información general",
+                    url: "https://www.wikipedia.org"
+                }
+            ],
+
+            modulos: [
+                {
+                    id: "html",
+                    titulo: "Módulo HTML",
+                    descripcion: "Aprende la estructura básica de una página web.",
+                    puntos: [
+                        "Etiquetas principales",
+                        "Títulos y párrafos",
+                        "Enlaces e imágenes",
+                        "Formularios básicos"
+                    ]
+                },
+                {
+                    id: "css",
+                    titulo: "Módulo CSS",
+                    descripcion: "Aprende a darle diseño visual a una página.",
+                    puntos: [
+                        "Colores y fondos",
+                        "Tamaños y espacios",
+                        "Tarjetas y botones",
+                        "Diseño adaptable"
+                    ]
+                },
+                {
+                    id: "javascript",
+                    titulo: "Módulo JavaScript",
+                    descripcion: "Aprende a crear acciones y funciones interactivas.",
+                    puntos: [
+                        "Eventos con botones",
+                        "Mostrar contenido dinámico",
+                        "Guardar datos en el navegador",
+                        "Crear pequeñas herramientas"
+                    ]
+                },
+                {
+                    id: "dashboard",
+                    titulo: "Módulo Dashboard",
+                    descripcion: "Aprende a mostrar datos en una pantalla principal.",
+                    puntos: [
+                        "Estadísticas",
+                        "Panel de información",
+                        "Display dinámico",
+                        "Accesos rápidos"
+                    ]
+                },
+                {
+                    id: "proyecto",
+                    titulo: "Proyecto Final",
+                    descripcion: "Cada alumno puede personalizar la página a su gusto.",
+                    puntos: [
+                        "Cambiar textos",
+                        "Agregar enlaces",
+                        "Crear nuevas secciones",
+                        "Presentar el resultado"
+                    ]
+                },
+                {
+                    id: "funciones",
+                    titulo: "Funciones Extra",
+                    descripcion: "Herramientas pequeñas dentro de la página.",
+                    puntos: [
+                        "Calculadora",
+                        "Notas",
+                        "Tareas",
+                        "Modo oscuro"
+                    ]
+                }
+            ],
+
+            recursos: [
+                {
+                    titulo: "Recurso de HTML",
+                    descripcion: "Material de ejemplo para aprender HTML.",
+                    url: "https://developer.mozilla.org/es/docs/Web/HTML"
+                },
+                {
+                    titulo: "Recurso de CSS",
+                    descripcion: "Material de ejemplo para aprender estilos CSS.",
+                    url: "https://developer.mozilla.org/es/docs/Web/CSS"
+                },
+                {
+                    titulo: "Recurso de JavaScript",
+                    descripcion: "Material de ejemplo para aprender JavaScript.",
+                    url: "https://developer.mozilla.org/es/docs/Web/JavaScript"
+                }
+            ]
+        };
+
+        /*
+            ======================================================
+            CARGA INICIAL
+            ======================================================
+        */
+
+        document.addEventListener("DOMContentLoaded", function () {
+            cargarConfiguracion();
+            renderizarEnlacesDashboard();
+            renderizarModulos();
+            renderizarRecursos();
+            cargarNota();
+            cargarTareas();
+            mostrarEnDisplay("bienvenida");
+        });
+
+        function cargarConfiguracion() {
+            document.getElementById("nombreProyectoMenu").textContent = CONFIGURACION_EDITABLE.nombreProyecto;
+            document.getElementById("subtituloProyectoMenu").textContent = CONFIGURACION_EDITABLE.subtitulo;
+            document.getElementById("logoIcono").textContent = CONFIGURACION_EDITABLE.logoTexto;
+            document.getElementById("etiquetaHero").textContent = CONFIGURACION_EDITABLE.etiquetaHero;
+            document.getElementById("tituloHero").textContent = CONFIGURACION_EDITABLE.tituloHero;
+            document.getElementById("descripcionHero").textContent = CONFIGURACION_EDITABLE.descripcionHero;
+            document.getElementById("marcaAgua").textContent = CONFIGURACION_EDITABLE.marcaAgua;
+            document.getElementById("footerTexto").textContent = CONFIGURACION_EDITABLE.footer;
+
+            document.getElementById("totalModulos").textContent = CONFIGURACION_EDITABLE.modulos.length;
+            document.getElementById("totalEnlaces").textContent = CONFIGURACION_EDITABLE.enlacesRapidos.length + CONFIGURACION_EDITABLE.recursos.length;
+        }
+
+        /*
+            ======================================================
+            DASHBOARD Y DISPLAY
+            ======================================================
+        */
+
+        function renderizarEnlacesDashboard() {
+            const contenedor = document.getElementById("listaEnlacesDashboard");
+            contenedor.innerHTML = "";
+
+            CONFIGURACION_EDITABLE.enlacesRapidos.forEach(function (enlace, index) {
+                const item = document.createElement("div");
+                item.className = "item-lista";
+
+                item.innerHTML = `
+                    <div>
+                        <strong>${enlace.titulo}</strong>
+                        <small>${enlace.descripcion}</small>
+                    </div>
+                    <button class="btn btn-principal" onclick="mostrarEnlaceEnDisplay(${index})">
+                        Ver
+                    </button>
+                `;
+
+                contenedor.appendChild(item);
+            });
+        }
+
+        function mostrarEnlaceEnDisplay(index) {
+            const enlace = CONFIGURACION_EDITABLE.enlacesRapidos[index];
+            const display = document.getElementById("pantallaDisplay");
+
+            display.innerHTML = `
+                <h3>${enlace.titulo}</h3>
+                <p>${enlace.descripcion}</p>
+                <p>
+                    Algunos sitios no permiten mostrarse dentro de un iframe.
+                    Si no carga abajo, usa el botón para abrir el enlace.
+                </p>
+                <a class="btn btn-principal" href="${enlace.url}" target="_blank">
+                    Abrir enlace en otra pestaña
+                </a>
+                <iframe src="${enlace.url}"></iframe>
+            `;
+
+            location.hash = "dashboard";
+        }
+
+        function mostrarEnDisplay(tipo) {
+            const display = document.getElementById("pantallaDisplay");
+
+            if (tipo === "bienvenida") {
+                display.innerHTML = `
+                    <h3>Bienvenido al dashboard</h3>
+                    <p>
+                        Este display muestra contenido dinámico dentro de la misma página.
+                        Puedes usarlo para explicar temas, abrir recursos, mostrar mensajes
+                        o simular un panel administrativo.
+                    </p>
+                    <div class="item-lista">
+                        <div>
+                            <strong>Prueba rápida</strong>
+                            <small>Presiona un módulo o enlace para cambiar este contenido.</small>
+                        </div>
+                        <a href="#modulos" class="btn btn-principal">Ir a módulos</a>
+                    </div>
+                `;
+            }
+
+            if (tipo === "guia") {
+                display.innerHTML = `
+                    <h3>Guía rápida para editar</h3>
+                    <p>
+                        Busca en el código la parte llamada CONFIGURACION_EDITABLE.
+                        Allí puedes cambiar el nombre del proyecto, los enlaces,
+                        los módulos, los recursos y la marca de agua.
+                    </p>
+                    <ul style="padding-left: 20px; color: var(--color-texto-suave);">
+                        <li>Cambia textos para personalizar la página.</li>
+                        <li>Agrega más objetos dentro de enlacesRapidos.</li>
+                        <li>Agrega más objetos dentro de modulos.</li>
+                        <li>Guarda el archivo y actualiza el navegador.</li>
+                    </ul>
+                `;
+
+                location.hash = "dashboard";
+            }
+        }
+
+        function limpiarDisplay() {
+            document.getElementById("pantallaDisplay").innerHTML = `
+                <h3>Display limpio</h3>
+                <p>
+                    El contenido fue limpiado. Puedes cargar otro módulo,
+                    enlace o formulario.
+                </p>
+                <button class="btn btn-principal" onclick="mostrarEnDisplay('bienvenida')">
+                    Volver a cargar bienvenida
+                </button>
+            `;
+
+            location.hash = "dashboard";
+        }
+
+        /*
+            ======================================================
+            MODULOS
+            ======================================================
+        */
+
+        function renderizarModulos() {
+            const contenedor = document.getElementById("contenedorModulos");
+            contenedor.innerHTML = "";
+
+            CONFIGURACION_EDITABLE.modulos.forEach(function (modulo, index) {
+                const tarjeta = document.createElement("article");
+                tarjeta.className = "tarjeta modulo-card";
+
+                const listaPuntos = modulo.puntos.map(function (punto) {
+                    return `<li>${punto}</li>`;
+                }).join("");
+
+                tarjeta.innerHTML = `
+                    <h3>${modulo.titulo}</h3>
+                    <p>${modulo.descripcion}</p>
+                    <ul>${listaPuntos}</ul>
+                    <button class="btn btn-principal" onclick="mostrarModuloEnDisplay(${index})">
+                        Mostrar en display
+                    </button>
+                `;
+
+                contenedor.appendChild(tarjeta);
+            });
+        }
+
+        function mostrarModuloEnDisplay(index) {
+            const modulo = CONFIGURACION_EDITABLE.modulos[index];
+            const display = document.getElementById("pantallaDisplay");
+
+            const listaPuntos = modulo.puntos.map(function (punto) {
+                return `<li>${punto}</li>`;
+            }).join("");
+
+            display.innerHTML = `
+                <h3>${modulo.titulo}</h3>
+                <p>${modulo.descripcion}</p>
+                <ul style="padding-left: 20px; color: var(--color-texto-suave);">
+                    ${listaPuntos}
+                </ul>
+                <br>
+                <a href="#modulos" class="btn">Volver a módulos</a>
+                <a href="#inicio" class="btn btn-principal">Volver al inicio</a>
+            `;
+
+            location.hash = "dashboard";
+        }
+
+        /*
+            ======================================================
+            RECURSOS
+            ======================================================
+        */
+
+        function renderizarRecursos() {
+            const contenedor = document.getElementById("contenedorRecursos");
+            contenedor.innerHTML = "";
+
+            CONFIGURACION_EDITABLE.recursos.forEach(function (recurso, index) {
+                const enlace = document.createElement("a");
+                enlace.className = "recurso-link";
+                enlace.href = recurso.url;
+                enlace.target = "_blank";
+
+                enlace.innerHTML = `
+                    <h3>${recurso.titulo}</h3>
+                    <p style="color: var(--color-texto-suave);">${recurso.descripcion}</p>
+                    <br>
+                    <span style="color: var(--color-principal); font-weight: bold;">
+                        Abrir recurso
+                    </span>
+                `;
+
+                contenedor.appendChild(enlace);
+            });
+        }
+
+        /*
+            ======================================================
+            FORMULARIO
+            ======================================================
+        */
+
+        function procesarFormulario(event) {
+            event.preventDefault();
+
+            const nombre = document.getElementById("nombreFormulario").value;
+            const tema = document.getElementById("temaFormulario").value;
+            const mensaje = document.getElementById("mensajeFormulario").value;
+
+            const display = document.getElementById("pantallaDisplay");
+
+            display.innerHTML = `
+                <h3>Resultado del formulario</h3>
+                <p><strong>Estudiante:</strong> ${nombre}</p>
+                <p><strong>Tema seleccionado:</strong> ${tema}</p>
+                <p><strong>Mensaje:</strong> ${mensaje}</p>
+                <br>
+                <p>
+                    Este ejemplo muestra cómo tomar datos de un formulario
+                    y presentarlos dentro de otra parte de la página.
+                </p>
+                <a href="#contacto" class="btn">Volver al formulario</a>
+                <a href="#inicio" class="btn btn-principal">Volver al inicio</a>
+            `;
+
+            location.hash = "dashboard";
+            event.target.reset();
+        }
+
+        /*
+            ======================================================
+            MENU FLOTANTE Y PANELES
+            ======================================================
+        */
+
+        function abrirMenuFlotante() {
+            document.getElementById("menuFlotante").classList.toggle("activo");
+        }
+
+        function abrirPanel(idPanel) {
+            cerrarTodosLosPaneles();
+            document.getElementById(idPanel).classList.add("activo");
+        }
+
+        function cerrarPanel(idPanel) {
+            document.getElementById(idPanel).classList.remove("activo");
+        }
+
+        function cerrarTodosLosPaneles() {
+            const paneles = document.querySelectorAll(".panel-lateral");
+            paneles.forEach(function (panel) {
+                panel.classList.remove("activo");
+            });
+        }
+
+        function cambiarModo() {
+            document.body.classList.toggle("modo-oscuro");
+
+            if (document.body.classList.contains("modo-oscuro")) {
+                localStorage.setItem("modo", "oscuro");
+            } else {
+                localStorage.setItem("modo", "claro");
+            }
+        }
+
+        if (localStorage.getItem("modo") === "oscuro") {
+            document.body.classList.add("modo-oscuro");
+        }
+
+        /*
+            ======================================================
+            CALCULADORA
+            ======================================================
+        */
+
+        let operacionCalculadora = "";
+
+        function calcAgregar(valor) {
+            if (operacionCalculadora === "0") {
+                operacionCalculadora = "";
+            }
+
+            operacionCalculadora += valor;
+            document.getElementById("resultadoCalculadora").textContent = operacionCalculadora;
+        }
+
+        function calcLimpiar() {
+            operacionCalculadora = "";
+            document.getElementById("resultadoCalculadora").textContent = "0";
+        }
+
+        function calcBorrar() {
+            operacionCalculadora = operacionCalculadora.slice(0, -1);
+            document.getElementById("resultadoCalculadora").textContent = operacionCalculadora || "0";
+        }
+
+        function calcResultado() {
+            try {
+                const caracteresPermitidos = /^[0-9+\-*/().\s]+$/;
+
+                if (!caracteresPermitidos.test(operacionCalculadora)) {
+                    throw new Error("Operación no permitida");
+                }
+
+                const resultado = Function("return " + operacionCalculadora)();
+
+                if (!isFinite(resultado)) {
+                    throw new Error("Resultado inválido");
+                }
+
+                operacionCalculadora = String(resultado);
+                document.getElementById("resultadoCalculadora").textContent = resultado;
+            } catch (error) {
+                document.getElementById("resultadoCalculadora").textContent = "Error";
+                operacionCalculadora = "";
+            }
+        }
+
+        /*
+            ======================================================
+            NOTAS
+            ======================================================
+        */
+
+        function guardarNota() {
+            const nota = document.getElementById("notaTexto").value.trim();
+
+            if (nota === "") {
+                alert("Escribe una nota primero.");
+                return;
+            }
+
+            localStorage.setItem("notaAlumno", nota);
+            document.getElementById("notaGuardada").textContent = nota;
+
+            const display = document.getElementById("pantallaDisplay");
+            display.innerHTML = `
+                <h3>Nota guardada</h3>
+                <p>${nota}</p>
+                <a href="#dashboard" class="btn btn-principal">Ver dashboard</a>
+            `;
+
+            location.hash = "dashboard";
+        }
+
+        function cargarNota() {
+            const nota = localStorage.getItem("notaAlumno");
+
+            if (nota) {
+                document.getElementById("notaTexto").value = nota;
+                document.getElementById("notaGuardada").textContent = nota;
+            }
+        }
+
+        function limpiarNota() {
+            localStorage.removeItem("notaAlumno");
+            document.getElementById("notaTexto").value = "";
+            document.getElementById("notaGuardada").textContent = "Todavía no hay notas guardadas.";
+        }
+
+        /*
+            ======================================================
+            TAREAS
+            ======================================================
+        */
+
+        let tareas = [];
+
+        function cargarTareas() {
+            const tareasGuardadas = localStorage.getItem("tareasAlumno");
+
+            if (tareasGuardadas) {
+                tareas = JSON.parse(tareasGuardadas);
+            }
+
+            renderizarTareas();
+        }
+
+        function guardarTareas() {
+            localStorage.setItem("tareasAlumno", JSON.stringify(tareas));
+        }
+
+        function agregarTarea() {
+            const input = document.getElementById("inputTarea");
+            const texto = input.value.trim();
+
+            if (texto === "") {
+                alert("Escribe una tarea primero.");
+                return;
+            }
+
+            tareas.push({
+                texto: texto,
+                completada: false
+            });
+
+            input.value = "";
+            guardarTareas();
+            renderizarTareas();
+        }
+
+        function renderizarTareas() {
+            const lista = document.getElementById("listaTareas");
+            lista.innerHTML = "";
+
+            if (tareas.length === 0) {
+                lista.innerHTML = `
+                    <p style="color: var(--color-texto-suave);">
+                        Todavía no hay tareas agregadas.
+                    </p>
+                `;
+                return;
+            }
+
+            tareas.forEach(function (tarea, index) {
+                const item = document.createElement("div");
+                item.className = tarea.completada ? "tarea completada" : "tarea";
+
+                item.innerHTML = `
+                    <span>${tarea.texto}</span>
+                    <div>
+                        <button class="btn" onclick="completarTarea(${index})">OK</button>
+                        <button class="btn" onclick="eliminarTarea(${index})">X</button>
+                    </div>
+                `;
+
+                lista.appendChild(item);
+            });
+        }
+
+        function completarTarea(index) {
+            tareas[index].completada = !tareas[index].completada;
+            guardarTareas();
+            renderizarTareas();
+        }
+
+        function eliminarTarea(index) {
+            tareas.splice(index, 1);
+            guardarTareas();
+            renderizarTareas();
+        }
+    </script>
+</body>
+</html>
