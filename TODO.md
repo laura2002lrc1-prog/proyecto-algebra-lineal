@@ -1,0 +1,7 @@
+- [x] Inicializar proyecto desde cero (package.json + backend)
+- [x] Crear API REST para ejercicios con SQLite
+- [x] Crear frontend (index.html, styles.css, app.js) con 3 apartados
+- [x] Conectar frontend con API (listar, agregar, eliminar)
+- [x] Semilla inicial en SQLite con ejercicios variados
+- [ ] Ejecutar npm install y verificar flujo end-to-end (requiere Node/npm)
+- [ ] (Opcional) Refuerzo de UX / manejo de errores
