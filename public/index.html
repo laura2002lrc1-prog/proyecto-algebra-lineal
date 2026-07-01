@@ -1,454 +1,122 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Álgebra Lineal • Panel de Ejercicios</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Fonts para una tipografía más moderna y limpia -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --brand: #4f46e5;
-            --brand-hover: #4338ca;
-            --brand-light: #eef2ff;
-            --bg: #f8fafc;
-            --surface: #ffffff;
-            --text: #0f172a;
-            --text-muted: #475569;
-            --border: #e2e8f0;
-            --success: #10b981;
-            --success-light: #ecfdf5;
-            --danger: #ef4444;
-            --radius-lg: 16px;
-            --radius-md: 12px;
-            --radius-sm: 8px;
-            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.04), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
-        }
-
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-        }
-
-        body { 
-            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            padding: 40px 20px;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container { 
-            max-width: 1100px; 
-            margin: 0 auto; 
-        }
-
-        /* Encabezado moderno */
-        header { 
-            margin-bottom: 40px; 
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 24px;
-        }
-
-        header h1 { 
-            font-size: 2.25rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            color: var(--text);
-            margin-bottom: 6px;
-        }
-        
-        header h1 span {
-            color: var(--brand);
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            font-weight: 500;
-        }
-
-        /* Distribución en dos columnas para una vista de panel */
-        .layout {
-            display: grid;
-            grid-template-columns: 360px 1fr;
-            gap: 32px;
-            align-items: start;
-        }
-
-        @media (max-width: 900px) {
-            .layout {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Formulario Estilo Card Premium */
-        .form-box { 
-            background: var(--surface); 
-            border: 1px solid var(--border); 
-            padding: 28px; 
-            border-radius: var(--radius-lg); 
-            box-shadow: var(--shadow-lg);
-            position: sticky;
-            top: 24px;
-        }
-
-        .form-box h3 { 
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 20px; 
-            color: var(--text); 
-            letter-spacing: -0.02em;
-        }
-
-        .form-group { margin-bottom: 18px; }
-
-        .form-group label { 
-            display: block; 
-            margin-bottom: 6px; 
-            font-weight: 600; 
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .form-group input, .form-group textarea, .form-group select { 
-            width: 100%; 
-            padding: 12px 14px; 
-            border: 1px solid var(--border); 
-            border-radius: var(--radius-md); 
-            font-family: inherit; 
-            font-size: 0.95rem;
-            color: var(--text);
-            background-color: var(--bg);
-            outline: none; 
-            transition: all 0.2s ease;
-        }
-
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { 
-            border-color: var(--brand); 
-            background-color: var(--surface);
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-        }
-
-        .submit-btn { 
-            background: var(--brand); 
-            color: white; 
-            border: none; 
-            padding: 14px; 
-            border-radius: var(--radius-md); 
-            cursor: pointer; 
-            font-weight: 600; 
-            font-size: 0.95rem;
-            width: 100%; 
-            transition: all 0.2s ease;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        }
-
-        .submit-btn:hover { 
-            background: var(--brand-hover); 
-            transform: translateY(-1px);
-        }
-
-        /* Pestañas de Filtro Modernas (Estilo Píldora) */
-        .tabs { 
-            display: flex; 
-            gap: 8px; 
-            margin-bottom: 24px; 
-            background: #e2e8f0;
-            padding: 6px;
-            border-radius: var(--radius-md);
-            width: fit-content;
-        }
-
-        .tab-btn { 
-            padding: 8px 16px; 
-            border: none;
-            background: transparent; 
-            cursor: pointer; 
-            border-radius: var(--radius-sm); 
-            font-weight: 600; 
-            font-size: 0.9rem;
-            color: var(--text-muted); 
-            transition: all 0.2s ease;
-        }
-
-        .tab-btn:hover {
-            color: var(--text);
-        }
-
-        .tab-btn.active { 
-            background: var(--surface); 
-            color: var(--brand); 
-            box-shadow: var(--shadow-sm);
-        }
-
-        /* Rejilla y Tarjetas de Ejercicios */
-        .grid { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 20px; 
-        }
-
-        .card { 
-            background: var(--surface); 
-            border: 1px solid var(--border); 
-            padding: 24px; 
-            border-radius: var(--radius-lg); 
-            box-shadow: var(--shadow-sm); 
-            position: relative; 
-            transition: all 0.2s ease;
-        }
-
-        .card:hover {
-            box-shadow: var(--shadow-md);
-            border-color: #cbd5e1;
-        }
-
-        .card h3 { 
-            margin-top: 4px;
-            margin-bottom: 8px; 
-            font-size: 1.2rem; 
-            font-weight: 700;
-            color: var(--text); 
-            padding-right: 32px;
-            letter-spacing: -0.02em;
-        }
-
-        .card p { 
-            color: var(--text-muted); 
-            margin-bottom: 20px; 
-            font-size: 0.95rem; 
-            white-space: pre-line; 
-            line-height: 1.5;
-        }
-
-        .badge { 
-            background: var(--brand-light); 
-            color: var(--brand); 
-            padding: 6px 12px; 
-            border-radius: var(--radius-sm); 
-            font-size: 0.75rem; 
-            font-weight: 700; 
-            display: inline-block; 
-            margin-bottom: 8px;
-            letter-spacing: 0.03em;
-        }
-
-        .ans-btn { 
-            background: var(--bg); 
-            border: 1px solid var(--border);
-            padding: 10px 16px; 
-            width: 100%; 
-            border-radius: var(--radius-md); 
-            cursor: pointer; 
-            font-weight: 600; 
-            font-size: 0.9rem;
-            color: var(--text); 
-            transition: all 0.2s ease; 
-        }
-
-        .ans-btn:hover { 
-            background: #edf2f7; 
-            border-color: #cbd5e1;
-        }
-
-        .respuesta { 
-            display: none; 
-            margin-top: 14px; 
-            padding: 16px; 
-            background: var(--success-light); 
-            border-left: 4px solid var(--success); 
-            border-radius: var(--radius-sm); 
-            font-size: 0.95rem; 
-            font-weight: 500;
-            color: #065f46;
-            line-height: 1.5;
-        }
-
-        .delete-btn { 
-            position: absolute; 
-            top: 20px; 
-            right: 20px; 
-            background: transparent; 
-            border: none; 
-            color: #94a3b8; 
-            cursor: pointer; 
-            font-size: 1.2rem; 
-            transition: color 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-        }
-
-        .delete-btn:hover { 
-            color: var(--danger); 
-            background-color: #fef2f2;
-        }
-        
-        .no-data {
-            grid-column: 1/-1; 
-            text-align: center; 
-            color: var(--text-muted); 
-            padding: 40px;
-            background: var(--surface);
-            border: 1px dashed var(--border);
-            border-radius: var(--radius-lg);
-            font-weight: 500;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Álgebra Lineal • Ejercicios</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Álgebra Lineal <span>•</span> Banco de Ejercicios</h1>
-            <p>Repositorio centralizado conectado a SQLite en la nube</p>
-        </header>
+  <div class="bg"></div>
 
-        <div class="layout">
-            <!-- Columna Izquierda: Formulario Fijo -->
-            <aside class="form-box">
-                <h3>Agregar Ejercicio</h3>
-                <form id="ejercicioForm">
-                    <div class="form-group">
-                        <label>Categoría</label>
-                        <select id="categoria" required>
-                            <option value="VECTORES Y ESPACIOS">VECTORES Y ESPACIOS</option>
-                            <option value="MATRICES Y SISTEMAS">MATRICES Y SISTEMAS</option>
-                            <option value="TRANSFORMACIONES">TRANSFORMACIONES</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Título</label>
-                        <input type="text" id="titulo" placeholder="Ej. Matriz Inversa por Gauss" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Enunciado del problema</label>
-                        <textarea id="enunciado" rows="4" placeholder="Escribe el sistema o las coordenadas aquí..." required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Solución / Respuesta</label>
-                        <input type="text" id="respuesta" placeholder="Resultado numérico o analítico">
-                    </div>
-                    <button type="submit" class="submit-btn">Guardar en Base de Datos</button>
-                </form>
-            </aside>
-
-            <!-- Columna Derecha: Filtros y Tarjetas -->
-            <main>
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="filtrar('TODOS')">Todos</button>
-                    <button class="tab-btn" onclick="filtrar('VECTORES Y ESPACIOS')">Vectores y Espacios</button>
-                    <button class="tab-btn" onclick="filtrar('MATRICES Y SISTEMAS')">Matrices y Sistemas</button>
-                    <button class="tab-btn" onclick="filtrar('TRANSFORMACIONES')">Transformaciones</button>
-                </div>
-
-                <div class="grid" id="ejerciciosGrid"></div>
-            </main>
-        </div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">∑</div>
+      <div>
+        <div class="brand-title">Álgebra Lineal</div>
+        <div class="brand-sub">Banco de ejercicios • SQLite + API</div>
+      </div>
     </div>
 
-    <script>
-        let categoriaActual = 'TODOS';
+    <div class="search-wrap">
+      <input id="search" class="search" placeholder="Buscar por título o enunciado…" />
+    </div>
+  </header>
 
-        async function obtenerEjercicios() {
-            let url = '/api/ejercicios';
-            if (categoriaActual !== 'TODOS') {
-                url += `?categoria=${encodeURIComponent(categoriaActual)}`;
-            }
-            try {
-                const res = await fetch(url);
-                const json = await res.json();
-                if (json.ok) renderizar(json.data);
-            } catch (err) {
-                console.error("Error al cargar datos:", err);
-            }
-        }
+  <main class="container">
+    <section class="hero">
+      <div>
+        <h1>Resuelve con estructura</h1>
+        <p>
+          Selecciona un apartado, lee el ejercicio y—si quieres—agrega o elimina contenido del banco.
+        </p>
+      </div>
 
-        function renderizar(lista) {
-            const grid = document.getElementById('ejerciciosGrid');
-            grid.innerHTML = lista.length === 0 ? '<div class="no-data">No se encontraron ejercicios en este apartado de la base de datos.</div>' : '';
-            
-            lista.forEach(ej => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <button class="delete-btn" onclick="eliminar(${ej.id})">✕</button>
-                    <span class="badge">${ej.categoria}</span>
-                    <h3>${ej.titulo}</h3>
-                    <p>${ej.enunciado}</p>
-                    <button class="ans-btn" onclick="toggleAns(${ej.id})">Ver Solución Desarrollada</button>
-                    <div class="respuesta" id="ans-${ej.id}">${ej.respuesta || 'Solución analítica no cargada.'}</div>
-                `;
-                grid.appendChild(card);
-            });
-        }
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-kpi" id="statTotal">—</div>
+          <div class="stat-label">Ejercicios</div>
+        </div>
+        <div class="stat">
+          <div class="stat-kpi" id="statCat">—</div>
+          <div class="stat-label">Categoría</div>
+        </div>
+      </div>
+    </section>
 
-        function toggleAns(id) {
-            const div = document.getElementById(`ans-${id}`);
-            div.style.display = div.style.display === 'block' ? 'none' : 'block';
-        }
+    <section class="layout">
+      <aside class="panel">
+        <div class="panel-title">Apartados</div>
+        <div class="tabs" id="tabs">
+          <!-- tabs rendered by JS -->
+        </div>
 
-        function filtrar(cat) {
-            categoriaActual = cat;
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                if (btn.getAttribute('onclick').includes(`'${cat}'`)) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-            obtenerEjercicios();
-        }
+        <div class="divider"></div>
 
-        async function eliminar(id) {
-            if(!confirm("¿Seguro que deseas eliminar este ejercicio de forma permanente?")) return;
-            try {
-                const res = await fetch(`/api/ejercicios/${id}`, { method: 'DELETE' });
-                const json = await res.json();
-                if(json.ok) obtenerEjercicios();
-            } catch (err) {
-                console.error("Error al eliminar:", err);
-            }
-        }
+        <div class="panel-title">Gestionar banco</div>
+        <form id="form" class="form" autocomplete="off">
+          <label class="field">
+            <span>Categoría</span>
+            <select id="categoria" required>
+              <!-- options by JS -->
+            </select>
+          </label>
 
-        document.getElementById('ejercicioForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const body = {
-                categoria: document.getElementById('categoria').value,
-                titulo: document.getElementById('titulo').value,
-                enunciado: document.getElementById('enunciado').value,
-                respuesta: document.getElementById('respuesta').value
-            };
-            try {
-                const res = await fetch('/api/ejercicios', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                });
-                const json = await res.json();
-                if(json.ok) {
-                    document.getElementById('ejercicioForm').reset();
-                    obtenerEjercicios();
-                }
-            } catch (err) {
-                console.error("Error al guardar:", err);
-            }
-        });
+          <label class="field">
+            <span>Título</span>
+            <input id="titulo" required placeholder="Ej: Método de eliminación" />
+          </label>
 
-        document.addEventListener('DOMContentLoaded', obtenerEjercicios);
-    </script>
+          <label class="field">
+            <span>Enunciado</span>
+            <textarea id="enunciado" required rows="4" placeholder="Escribe el enunciado del ejercicio…"></textarea>
+          </label>
+
+          <label class="field">
+            <span>Respuesta (opcional)</span>
+            <textarea id="respuesta" rows="3" placeholder="Puedes añadir la respuesta o dejarlo vacío…"></textarea>
+          </label>
+
+          <button class="btn primary" type="submit">Agregar ejercicio</button>
+        </form>
+
+        <div id="formMsg" class="form-msg" aria-live="polite"></div>
+      </aside>
+
+      <section class="content">
+        <div class="content-header">
+          <div>
+            <div class="panel-title">Ejercicios del apartado</div>
+            <div class="muted" id="catLabel">—</div>
+          </div>
+
+          <div class="sort">
+            <label class="muted" for="sort">Orden</label>
+            <select id="sort">
+              <option value="desc" selected>Más recientes</option>
+              <option value="asc">Más antiguos</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="list" class="cards"></div>
+
+        <div id="empty" class="empty">
+          <div class="empty-icon">🧠</div>
+          <div>
+            <div class="empty-title">No hay ejercicios</div>
+            <div class="muted">Agrega uno desde la izquierda o cambia de apartado.</div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Hecho con HTML, CSS, JS y Node.js + Express + SQLite (better-sqlite3).
+  </footer>
+
+  <script src="app.js" type="module"></script>
 </body>
 </html>
+
