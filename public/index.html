@@ -4,119 +4,357 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Álgebra Lineal • Ejercicios</title>
-  <link rel="stylesheet" href="styles.css" />
+  
+  <!-- Estilos Gráficos Modernos y Premium Integrados Directamente -->
+  <style>
+    :root {
+      --brand: #4f46e5;
+      --brand-hover: #4338ca;
+      --brand-light: #eef2ff;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --danger: #ef4444;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); padding: 30px 20px; -webkit-font-smoothing: antialiased; }
+    
+    .container { max-width: 1100px; margin: 0 auto; }
+    
+    /* Barra Superior */
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 20px; border-bottom: 1px solid var(--border); padding-bottom: 20px; margin-bottom: 30px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo { background: var(--brand); color: white; width: 40px; height: 40px; display: grid; place-items: center; font-size: 1.5rem; font-weight: bold; border-radius: var(--radius-md); }
+    .brand-title { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
+    .brand-sub { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; }
+    
+    .search-wrap { width: 320px; }
+    .search { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); outline: none; transition: 0.2s; }
+    .search:focus { border-color: var(--brand); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+
+    /* Sección Hero */
+    .hero { margin-bottom: 35px; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #eef2ff 0%, #f1f5f9 100%); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border); }
+    .hero h1 { font-size: 1.75rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.02em; }
+    .hero p { color: var(--text-muted); font-size: 0.95rem; max-width: 600px; }
+    .hero-stats { display: flex; gap: 16px; }
+    .stat { background: var(--surface); padding: 12px 20px; border-radius: var(--radius-md); border: 1px solid var(--border); text-align: center; min-width: 100px; }
+    .stat-kpi { font-size: 1.5rem; font-weight: 700; color: var(--brand); }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+
+    /* Layout Panel */
+    .layout { display: grid; grid-template-columns: 340px 1fr; gap: 30px; align-items: start; }
+    @media (max-width: 850px) { .layout { grid-template-columns: 1fr; } .search-wrap { width: 100%; } .topbar { flex-direction: column; align-items: flex-start; } }
+    
+    .panel { background: var(--surface); border: 1px solid var(--border); padding: 24px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); }
+    .panel-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 14px; }
+    
+    /* Pestañas e Inputs */
+    .tabs { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+    .tab-btn { width: 100%; text-align: left; padding: 10px 14px; border: 1px solid transparent; background: transparent; cursor: pointer; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; color: var(--text-muted); transition: 0.2s; }
+    .tab-btn:hover { background: var(--bg); color: var(--text); }
+    .tab-btn.active { background: var(--brand-light); color: var(--brand); border-color: transparent; }
+    
+    .divider { height: 1px; background: var(--border); margin: 20px 0; }
+    
+    .form { display: flex; flex-direction: column; gap: 14px; }
+    .field { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+    .field input, .field select, .field textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: 0.9rem; background: var(--bg); color: var(--text); outline: none; transition: 0.2s; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--brand); background: var(--surface); box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+    
+    .btn { background: var(--brand); color: white; border: none; padding: 12px; border-radius: var(--radius-md); cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: 0.2s; text-align: center; }
+    .btn:hover { background: var(--brand-hover); transform: translateY(-1px); }
+    .form-msg { font-size: 0.85rem; margin-top: 8px; text-align: center; font-weight: 500; }
+
+    /* Lado Derecho: Tarjetas */
+    .content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+    #catLabel { font-size: 1.25rem; font-weight: 700; color: var(--text); }
+    .sort { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+    .sort select { padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); font-family: inherit; outline: none; }
+    
+    .cards { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .card { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); position: relative; transition: 0.2s; }
+    .card:hover { border-color: #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 6px; padding-right: 30px; }
+    .card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 16px; white-space: pre-line; }
+    
+    .badge { background: var(--brand-light); color: var(--brand); padding: 4px 10px; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 700; display: inline-block; margin-bottom: 8px; }
+    .ans-btn { background: var(--bg); border: 1px solid var(--border); padding: 10px; width: 100%; border-radius: var(--radius-md); cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: 0.2s; }
+    .ans-btn:hover { background: #edf2f7; }
+    .respuesta { display: none; margin-top: 12px; padding: 14px; background: var(--success-light); border-left: 4px solid var(--success); border-radius: var(--radius-sm); font-size: 0.9rem; color: #065f46; font-weight: 500; }
+    
+    .delete-btn { position: absolute; top: 18px; right: 18px; background: transparent; border: none; color: #94a3b8; cursor: pointer; font-size: 1.1rem; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; transition: 0.2s; }
+    .delete-btn:hover { color: var(--danger); background: #fef2f2; }
+    
+    .empty { display: none; text-align: center; padding: 40px; background: var(--surface); border: 1px dashed var(--border); border-radius: var(--radius-lg); }
+    .empty-icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .empty-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 2px; }
+    .muted { color: var(--text-muted); font-size: 0.9rem; }
+    
+    .footer { text-align: center; margin-top: 50px; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 20px; }
+  </style>
 </head>
 <body>
-  <div class="bg"></div>
-
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo">∑</div>
-      <div>
-        <div class="brand-title">Álgebra Lineal</div>
-        <div class="brand-sub">Banco de ejercicios • SQLite + API</div>
-      </div>
-    </div>
-
-    <div class="search-wrap">
-      <input id="search" class="search" placeholder="Buscar por título o enunciado…" />
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="hero">
-      <div>
-        <h1>Resuelve con estructura</h1>
-        <p>
-          Selecciona un apartado, lee el ejercicio y—si quieres—agrega o elimina contenido del banco.
-        </p>
-      </div>
-
-      <div class="hero-stats">
-        <div class="stat">
-          <div class="stat-kpi" id="statTotal">—</div>
-          <div class="stat-label">Ejercicios</div>
-        </div>
-        <div class="stat">
-          <div class="stat-kpi" id="statCat">—</div>
-          <div class="stat-label">Categoría</div>
+  <div class="container">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">∑</div>
+        <div>
+          <div class="brand-title">Álgebra Lineal</div>
+          <div class="brand-sub">Banco de ejercicios • SQLite + API</div>
         </div>
       </div>
-    </section>
 
-    <section class="layout">
-      <aside class="panel">
-        <div class="panel-title">Apartados</div>
-        <div class="tabs" id="tabs">
-          <!-- tabs rendered by JS -->
+      <div class="search-wrap">
+        <input id="search" class="search" placeholder="Buscar por título o enunciado…" oninput="buscar()" />
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <h1>Resuelve con estructura</h1>
+          <p>Selecciona un apartado, lee el ejercicio y—si quieres—agrega o elimina contenido del banco de datos centralizado.</p>
         </div>
 
-        <div class="divider"></div>
-
-        <div class="panel-title">Gestionar banco</div>
-        <form id="form" class="form" autocomplete="off">
-          <label class="field">
-            <span>Categoría</span>
-            <select id="categoria" required>
-              <!-- options by JS -->
-            </select>
-          </label>
-
-          <label class="field">
-            <span>Título</span>
-            <input id="titulo" required placeholder="Ej: Método de eliminación" />
-          </label>
-
-          <label class="field">
-            <span>Enunciado</span>
-            <textarea id="enunciado" required rows="4" placeholder="Escribe el enunciado del ejercicio…"></textarea>
-          </label>
-
-          <label class="field">
-            <span>Respuesta (opcional)</span>
-            <textarea id="respuesta" rows="3" placeholder="Puedes añadir la respuesta o dejarlo vacío…"></textarea>
-          </label>
-
-          <button class="btn primary" type="submit">Agregar ejercicio</button>
-        </form>
-
-        <div id="formMsg" class="form-msg" aria-live="polite"></div>
-      </aside>
-
-      <section class="content">
-        <div class="content-header">
-          <div>
-            <div class="panel-title">Ejercicios del apartado</div>
-            <div class="muted" id="catLabel">—</div>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-kpi" id="statTotal">0</div>
+            <div class="stat-label">Ejercicios</div>
           </div>
-
-          <div class="sort">
-            <label class="muted" for="sort">Orden</label>
-            <select id="sort">
-              <option value="desc" selected>Más recientes</option>
-              <option value="asc">Más antiguos</option>
-            </select>
-          </div>
-        </div>
-
-        <div id="list" class="cards"></div>
-
-        <div id="empty" class="empty">
-          <div class="empty-icon">🧠</div>
-          <div>
-            <div class="empty-title">No hay ejercicios</div>
-            <div class="muted">Agrega uno desde la izquierda o cambia de apartado.</div>
+          <div class="stat">
+            <div class="stat-kpi" id="statCat">3</div>
+            <div class="stat-label">Categorías</div>
           </div>
         </div>
       </section>
-    </section>
-  </main>
 
-  <footer class="footer">
-    Hecho con HTML, CSS, JS y Node.js + Express + SQLite (better-sqlite3).
-  </footer>
+      <section class="layout">
+        <aside class="panel">
+          <div class="panel-title">Apartados</div>
+          <div class="tabs" id="tabs">
+            <button class="tab-btn active" onclick="filtrar('TODOS')">📁 Todos los Ejercicios</button>
+            <button class="tab-btn" onclick="filtrar('VECTORES Y ESPACIOS')">📐 Vectores y Espacios</button>
+            <button class="tab-btn" onclick="filtrar('MATRICES Y SISTEMAS')">🔢 Matrices y Sistemas</button>
+            <button class="tab-btn" onclick="filtrar('TRANSFORMACIONES')">🔄 Transformaciones</button>
+          </div>
 
-  <script src="app.js" type="module"></script>
+          <div class="divider"></div>
+
+          <div class="panel-title">Gestionar banco</div>
+          <form id="form" class="form" autocomplete="off">
+            <label class="field">
+              <span>Categoría</span>
+              <select id="categoria" required>
+                <option value="VECTORES Y ESPACIOS">VECTORES Y ESPACIOS</option>
+                <option value="MATRICES Y SISTEMAS">MATRICES Y SISTEMAS</option>
+                <option value="TRANSFORMACIONES">TRANSFORMACIONES</option>
+              </select>
+            </label>
+
+            <label class="field">
+              <span>Título</span>
+              <input id="titulo" required placeholder="Ej: Método de eliminación" />
+            </label>
+
+            <label class="field">
+              <span>Enunciado</span>
+              <textarea id="enunciado" required rows="4" placeholder="Escribe el enunciado del ejercicio…"></textarea>
+            </label>
+
+            <label class="field">
+              <span>Respuesta (opcional)</span>
+              <textarea id="respuesta" rows="3" placeholder="Puedes añadir la respuesta o dejarlo vacío…"></textarea>
+            </label>
+
+            <button class="btn primary" type="submit">Agregar ejercicio</button>
+          </form>
+          <div id="formMsg" class="form-msg"></div>
+        </aside>
+
+        <section class="content">
+          <div class="content-header">
+            <div>
+              <div class="panel-title">Ejercicios del apartado</div>
+              <div id="catLabel">Todos los Ejercicios</div>
+            </div>
+
+            <div class="sort">
+              <label class="muted" for="sort">Orden</label>
+              <select id="sort" onchange="obtenerEjercicios()">
+                <option value="desc" selected>Más recientes</option>
+                <option value="asc">Más antiguos</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="list" class="cards"></div>
+          <div id="empty" class="empty">
+            <div class="empty-icon">🧠</div>
+            <div class="empty-title">No hay ejercicios</div>
+            <div class="muted">Agrega uno desde la izquierda o cambia de apartado.</div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="footer">
+      Hecho con HTML, CSS, JS y Node.js + Express + SQLite (better-sqlite3).
+    </footer>
+  </div>
+
+  <!-- Lógica e Inyecciones de API Integradas Nativamente -->
+  <script>
+    let categoriaActual = 'TODOS';
+    let todosLosEjercicios = [];
+
+    async function obtenerEjercicios() {
+        let url = '/api/ejercicios';
+        if (categoriaActual !== 'TODOS') {
+            url += `?categoria=${encodeURIComponent(categoriaActual)}`;
+        }
+        try {
+            const res = await fetch(url);
+            const json = await res.json();
+            if (json.ok) {
+                todosLosEjercicios = json.data;
+                
+                // Aplicar orden seleccionado
+                const orden = document.getElementById('sort').value;
+                if (orden === 'asc') {
+                    todosLosEjercicios.sort((a, b) => a.id - b.id);
+                } else {
+                    todosLosEjercicios.sort((a, b) => b.id - a.id);
+                }
+                
+                renderizar(todosLosEjercicios);
+                actualizarContadorTotal();
+            }
+        } catch (err) {
+            console.error("Error cargando base de datos SQLite:", err);
+        }
+    }
+
+    function renderizar(lista) {
+        const grid = document.getElementById('list');
+        const empty = document.getElementById('empty');
+        
+        if (lista.length === 0) {
+            grid.innerHTML = '';
+            empty.style.display = 'block';
+            return;
+        }
+        
+        empty.style.display = 'none';
+        grid.innerHTML = '';
+        
+        lista.forEach(ej => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <button class="delete-btn" onclick="eliminar(${ej.id})">✕</button>
+                <span class="badge">${ej.categoria}</span>
+                <h3>${ej.titulo}</h3>
+                <p>${ej.enunciado}</p>
+                <button class="ans-btn" onclick="toggleAns(${ej.id})">Ver Respuesta</button>
+                <div class="respuesta" id="ans-${ej.id}">${ej.respuesta || 'Procedimiento final no especificado.'}</div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+
+    function toggleAns(id) {
+        const div = document.getElementById(`ans-${id}`);
+        div.style.display = div.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function filtrar(cat) {
+        categoriaActual = cat;
+        document.getElementById('catLabel').textContent = cat === 'TODOS' ? 'Todos los Ejercicios' : cat;
+        
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            if (btn.getAttribute('onclick').includes(`'${cat}'`)) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        obtenerEjercicios();
+    }
+
+    function buscar() {
+        const query = document.getElementById('search').value.toLowerCase().trim();
+        if (query === "") {
+            renderizar(todosLosEjercicios);
+            return;
+        }
+        const filtrados = todosLosEjercicios.filter(ej => 
+            ej.titulo.toLowerCase().includes(query) || 
+            ej.enunciado.toLowerCase().includes(query)
+        );
+        renderizar(filtrados);
+    }
+
+    async function actualizarContadorTotal() {
+        try {
+            const res = await fetch('/api/ejercicios');
+            const json = await res.json();
+            if (json.ok) {
+                document.getElementById('statTotal').textContent = json.data.length;
+            }
+        } catch(e){}
+    }
+
+    async function eliminar(id) {
+        if(!confirm("¿Seguro que deseas eliminar este ejercicio de la base de datos SQLite?")) return;
+        try {
+            const res = await fetch(`/api/ejercicios/${id}`, { method: 'DELETE' });
+            const json = await res.json();
+            if(json.ok) obtenerEjercicios();
+        } catch (err) {
+            console.error("Error al eliminar registro:", err);
+        }
+    }
+
+    document.getElementById('form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const msg = document.getElementById('formMsg');
+        const body = {
+            categoria: document.getElementById('categoria').value,
+            titulo: document.getElementById('titulo').value,
+            enunciado: document.getElementById('enunciado').value,
+            respuesta: document.getElementById('respuesta').value
+        };
+        try {
+            const res = await fetch('/api/ejercicios', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            const json = await res.json();
+            if(json.ok) {
+                msg.style.color = "var(--success)";
+                msg.textContent = "¡Ejercicio guardado con éxito!";
+                document.getElementById('form').reset();
+                obtenerEjercicios();
+                setTimeout(() => msg.textContent = "", 3000);
+            }
+        } catch (err) {
+            msg.style.color = "var(--danger)";
+            msg.textContent = "Error al conectar con la API.";
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', obtenerEjercicios);
+  </script>
 </body>
 </html>
-
