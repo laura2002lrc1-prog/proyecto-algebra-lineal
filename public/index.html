@@ -2,96 +2,367 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Álgebra Lineal - Banco de Ejercicios</title>
+    <title>Álgebra Lineal • Panel de Ejercicios</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts para una tipografía más moderna y limpia -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --primary: #2563eb;
+            --brand: #4f46e5;
+            --brand-hover: #4338ca;
+            --brand-light: #eef2ff;
             --bg: #f8fafc;
-            --card: #ffffff;
+            --surface: #ffffff;
             --text: #0f172a;
-            --text-muted: #64748b;
+            --text-muted: #475569;
             --border: #e2e8f0;
-            --success: #16a34a;
+            --success: #10b981;
+            --success-light: #ecfdf5;
+            --danger: #ef4444;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.04), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        header { margin-bottom: 30px; text-align: center; }
-        h1 { color: var(--primary); margin-bottom: 10px; }
-        .form-box { background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .form-box h3 { margin-bottom: 15px; color: var(--text); }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; outline: none; }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--primary); }
-        .submit-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.2s; }
-        .submit-btn:hover { background: #1d4ed8; }
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; justify-content: center; flex-wrap: wrap; }
-        .tab-btn { padding: 10px 20px; border: 1px solid var(--border); background: var(--card); cursor: pointer; border-radius: 8px; font-weight: 600; color: var(--text-muted); transition: 0.2s; }
-        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); position: relative; }
-        .card h3 { margin-bottom: 10px; font-size: 1.2rem; color: var(--primary); padding-right: 20px; }
-        .card p { color: var(--text-muted); margin-bottom: 15px; font-size: 0.95rem; white-space: pre-line; }
-        .badge { background: #e0f2fe; color: #0369a1; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; display: inline-block; margin-bottom: 10px; }
-        .ans-btn { background: #f1f5f9; border: none; padding: 8px 12px; width: 100%; border-radius: 6px; cursor: pointer; font-weight: 500; color: var(--text); transition: 0.2s; }
-        .ans-btn:hover { background: #e2e8f0; }
-        .respuesta { display: none; margin-top: 10px; padding: 10px; background: #f0fdf4; border-left: 4px solid var(--success); border-radius: 4px; font-size: 0.9rem; }
-        .delete-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #ef4444; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 40px 20px;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+        }
+
+        /* Encabezado moderno */
+        header { 
+            margin-bottom: 40px; 
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 24px;
+        }
+
+        header h1 { 
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        
+        header h1 span {
+            color: var(--brand);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        /* Distribución en dos columnas para una vista de panel */
+        .layout {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Formulario Estilo Card Premium */
+        .form-box { 
+            background: var(--surface); 
+            border: 1px solid var(--border); 
+            padding: 28px; 
+            border-radius: var(--radius-lg); 
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 24px;
+        }
+
+        .form-box h3 { 
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 20px; 
+            color: var(--text); 
+            letter-spacing: -0.02em;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-group label { 
+            display: block; 
+            margin-bottom: 6px; 
+            font-weight: 600; 
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-group input, .form-group textarea, .form-group select { 
+            width: 100%; 
+            padding: 12px 14px; 
+            border: 1px solid var(--border); 
+            border-radius: var(--radius-md); 
+            font-family: inherit; 
+            font-size: 0.95rem;
+            color: var(--text);
+            background-color: var(--bg);
+            outline: none; 
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { 
+            border-color: var(--brand); 
+            background-color: var(--surface);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .submit-btn { 
+            background: var(--brand); 
+            color: white; 
+            border: none; 
+            padding: 14px; 
+            border-radius: var(--radius-md); 
+            cursor: pointer; 
+            font-weight: 600; 
+            font-size: 0.95rem;
+            width: 100%; 
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .submit-btn:hover { 
+            background: var(--brand-hover); 
+            transform: translateY(-1px);
+        }
+
+        /* Pestañas de Filtro Modernas (Estilo Píldora) */
+        .tabs { 
+            display: flex; 
+            gap: 8px; 
+            margin-bottom: 24px; 
+            background: #e2e8f0;
+            padding: 6px;
+            border-radius: var(--radius-md);
+            width: fit-content;
+        }
+
+        .tab-btn { 
+            padding: 8px 16px; 
+            border: none;
+            background: transparent; 
+            cursor: pointer; 
+            border-radius: var(--radius-sm); 
+            font-weight: 600; 
+            font-size: 0.9rem;
+            color: var(--text-muted); 
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--text);
+        }
+
+        .tab-btn.active { 
+            background: var(--surface); 
+            color: var(--brand); 
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Rejilla y Tarjetas de Ejercicios */
+        .grid { 
+            display: grid; 
+            grid-template-columns: 1fr; 
+            gap: 20px; 
+        }
+
+        .card { 
+            background: var(--surface); 
+            border: 1px solid var(--border); 
+            padding: 24px; 
+            border-radius: var(--radius-lg); 
+            box-shadow: var(--shadow-sm); 
+            position: relative; 
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: #cbd5e1;
+        }
+
+        .card h3 { 
+            margin-top: 4px;
+            margin-bottom: 8px; 
+            font-size: 1.2rem; 
+            font-weight: 700;
+            color: var(--text); 
+            padding-right: 32px;
+            letter-spacing: -0.02em;
+        }
+
+        .card p { 
+            color: var(--text-muted); 
+            margin-bottom: 20px; 
+            font-size: 0.95rem; 
+            white-space: pre-line; 
+            line-height: 1.5;
+        }
+
+        .badge { 
+            background: var(--brand-light); 
+            color: var(--brand); 
+            padding: 6px 12px; 
+            border-radius: var(--radius-sm); 
+            font-size: 0.75rem; 
+            font-weight: 700; 
+            display: inline-block; 
+            margin-bottom: 8px;
+            letter-spacing: 0.03em;
+        }
+
+        .ans-btn { 
+            background: var(--bg); 
+            border: 1px solid var(--border);
+            padding: 10px 16px; 
+            width: 100%; 
+            border-radius: var(--radius-md); 
+            cursor: pointer; 
+            font-weight: 600; 
+            font-size: 0.9rem;
+            color: var(--text); 
+            transition: all 0.2s ease; 
+        }
+
+        .ans-btn:hover { 
+            background: #edf2f7; 
+            border-color: #cbd5e1;
+        }
+
+        .respuesta { 
+            display: none; 
+            margin-top: 14px; 
+            padding: 16px; 
+            background: var(--success-light); 
+            border-left: 4px solid var(--success); 
+            border-radius: var(--radius-sm); 
+            font-size: 0.95rem; 
+            font-weight: 500;
+            color: #065f46;
+            line-height: 1.5;
+        }
+
+        .delete-btn { 
+            position: absolute; 
+            top: 20px; 
+            right: 20px; 
+            background: transparent; 
+            border: none; 
+            color: #94a3b8; 
+            cursor: pointer; 
+            font-size: 1.2rem; 
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+        }
+
+        .delete-btn:hover { 
+            color: var(--danger); 
+            background-color: #fef2f2;
+        }
+        
+        .no-data {
+            grid-column: 1/-1; 
+            text-align: center; 
+            color: var(--text-muted); 
+            padding: 40px;
+            background: var(--surface);
+            border: 1px dashed var(--border);
+            border-radius: var(--radius-lg);
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Álgebra Lineal • Banco de Ejercicios</h1>
-            <p>Panel interactivo conectado a SQLite en la nube</p>
+            <h1>Álgebra Lineal <span>•</span> Banco de Ejercicios</h1>
+            <p>Repositorio centralizado conectado a SQLite en la nube</p>
         </header>
 
-        <!-- Formulario para agregar ejercicios -->
-        <div class="form-box">
-            <h3>Agregar Nuevo Ejercicio</h3>
-            <form id="ejercicioForm">
-                <div class="form-group">
-                    <label>Categoría</label>
-                    <select id="categoria" required>
-                        <option value="VECTORES Y ESPACIOS">VECTORES Y ESPACIOS</option>
-                        <option value="MATRICES Y SISTEMAS">MATRICES Y SISTEMAS</option>
-                        <option value="TRANSFORMACIONES">TRANSFORMACIONES</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Título del Problema</label>
-                    <input type="text" id="titulo" placeholder="Ej. Multiplicación de Matrices 2x2" required>
-                </div>
-                <div class="form-group">
-                    <label>Enunciado / Desarrollo</label>
-                    <textarea id="enunciado" rows="3" placeholder="Escribe las instrucciones o ecuaciones..." required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Respuesta Final (Solución)</label>
-                    <input type="text" id="respuesta" placeholder="Resultado que verán los alumnos">
-                </div>
-                <button type="submit" class="submit-btn">Guardar en Base de Datos</button>
-            </form>
-        </div>
+        <div class="layout">
+            <!-- Columna Izquierda: Formulario Fijo -->
+            <aside class="form-box">
+                <h3>Agregar Ejercicio</h3>
+                <form id="ejercicioForm">
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="categoria" required>
+                            <option value="VECTORES Y ESPACIOS">VECTORES Y ESPACIOS</option>
+                            <option value="MATRICES Y SISTEMAS">MATRICES Y SISTEMAS</option>
+                            <option value="TRANSFORMACIONES">TRANSFORMACIONES</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input type="text" id="titulo" placeholder="Ej. Matriz Inversa por Gauss" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Enunciado del problema</label>
+                        <textarea id="enunciado" rows="4" placeholder="Escribe el sistema o las coordenadas aquí..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Solución / Respuesta</label>
+                        <input type="text" id="respuesta" placeholder="Resultado numérico o analítico">
+                    </div>
+                    <button type="submit" class="submit-btn">Guardar en Base de Datos</button>
+                </form>
+            </aside>
 
-        <!-- Barra de Filtros por Categoría -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="filtrar('TODOS')">Todos los Ejercicios</button>
-            <button class="tab-btn" onclick="filtrar('VECTORES Y ESPACIOS')">Vectores y Espacios</button>
-            <button class="tab-btn" onclick="filtrar('MATRICES Y SISTEMAS')">Matrices y Sistemas</button>
-            <button class="tab-btn" onclick="filtrar('TRANSFORMACIONES')">Transformaciones</button>
-        </div>
+            <!-- Columna Derecha: Filtros y Tarjetas -->
+            <main>
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="filtrar('TODOS')">Todos</button>
+                    <button class="tab-btn" onclick="filtrar('VECTORES Y ESPACIOS')">Vectores y Espacios</button>
+                    <button class="tab-btn" onclick="filtrar('MATRICES Y SISTEMAS')">Matrices y Sistemas</button>
+                    <button class="tab-btn" onclick="filtrar('TRANSFORMACIONES')">Transformaciones</button>
+                </div>
 
-        <!-- Rejilla donde se cargan las tarjetas -->
-        <div class="grid" id="ejerciciosGrid"></div>
+                <div class="grid" id="ejerciciosGrid"></div>
+            </main>
+        </div>
     </div>
 
     <script>
         let categoriaActual = 'TODOS';
 
-        // Obtener datos del servidor SQLite
         async function obtenerEjercicios() {
             let url = '/api/ejercicios';
             if (categoriaActual !== 'TODOS') {
@@ -102,14 +373,13 @@
                 const json = await res.json();
                 if (json.ok) renderizar(json.data);
             } catch (err) {
-                console.error("Error al conectar con la API:", err);
+                console.error("Error al cargar datos:", err);
             }
         }
 
-        // Renderizar las tarjetas dinámicamente
         function renderizar(lista) {
             const grid = document.getElementById('ejerciciosGrid');
-            grid.innerHTML = lista.length === 0 ? '<p style="grid-column: 1/-1; text-align:center; color:gray; padding: 20px;">No hay ejercicios registrados en esta sección.</p>' : '';
+            grid.innerHTML = lista.length === 0 ? '<div class="no-data">No se encontraron ejercicios en este apartado de la base de datos.</div>' : '';
             
             lista.forEach(ej => {
                 const card = document.createElement('div');
@@ -119,8 +389,8 @@
                     <span class="badge">${ej.categoria}</span>
                     <h3>${ej.titulo}</h3>
                     <p>${ej.enunciado}</p>
-                    <button class="ans-btn" onclick="toggleAns(${ej.id})">Ver Solución</button>
-                    <div class="respuesta" id="ans-${ej.id}">${ej.respuesta || 'Procedimiento no disponible.'}</div>
+                    <button class="ans-btn" onclick="toggleAns(${ej.id})">Ver Solución Desarrollada</button>
+                    <div class="respuesta" id="ans-${ej.id}">${ej.respuesta || 'Solución analítica no cargada.'}</div>
                 `;
                 grid.appendChild(card);
             });
@@ -131,7 +401,6 @@
             div.style.display = div.style.display === 'block' ? 'none' : 'block';
         }
 
-        // Lógica de filtrado por categoría corregida
         function filtrar(cat) {
             categoriaActual = cat;
             document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -144,19 +413,17 @@
             obtenerEjercicios();
         }
 
-        // Eliminar registros
         async function eliminar(id) {
-            if(!confirm("¿Deseas eliminar este ejercicio del repositorio?")) return;
+            if(!confirm("¿Seguro que deseas eliminar este ejercicio de forma permanente?")) return;
             try {
                 const res = await fetch(`/api/ejercicios/${id}`, { method: 'DELETE' });
                 const json = await res.json();
                 if(json.ok) obtenerEjercicios();
             } catch (err) {
-                console.error("Error al borrar:", err);
+                console.error("Error al eliminar:", err);
             }
         }
 
-        // Enviar nuevo ejercicio al backend
         document.getElementById('ejercicioForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const body = {
